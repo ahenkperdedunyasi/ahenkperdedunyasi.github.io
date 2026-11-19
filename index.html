@@ -1,0 +1,1762 @@
+```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahenk Perde Dünyası | Perde Metraj Hesaplayıcı ve Ücretsiz Ölçü</title>
+  <meta name="description" content="Ahenk Perde Dünyası — İnönü, Alageyik Cd. 57/A, Küçükçekmece/İstanbul. Canlı perde metraj ve pile hesaplayıcı, ücretsiz yerinde ölçü ve özel dikim." />
+
+  <!-- Google Fonts: Playfair Display (Başlıklar) ve Inter (Gövde Metni) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================================
+       TASARIM DEĞİŞKENLERİ (DESIGN TOKENS)
+       Keten kremi (#F9F7F4), sıcak antrasit (#2C2A29), orman yeşili (#2D6A4F)
+       ========================================================================= */
+    :root {
+      --bg-linen: #F9F7F4;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F2EFE9;
+      --border-sand: #E6E1D8;
+      --border-strong: #D4CEC2;
+
+      --accent-green: #2D6A4F;
+      --accent-green-hover: #23533D;
+      --accent-green-soft: #EBF3EF;
+      --accent-sage: #52796F;
+
+      --text-primary: #2C2A29;
+      --text-secondary: #5B5753;
+      --text-muted: #847F7A;
+
+      --danger: #B4433C;
+      --danger-soft: #FDF2F1;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-pill: 999px;
+
+      --shadow-sm: 0 1px 3px rgba(44, 42, 41, 0.04);
+      --shadow-md: 0 8px 24px rgba(45, 106, 79, 0.07);
+
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    }
+
+    /* =========================================================================
+       TEMEL SIFIRLAMA VE TİPOGRAFİ
+       ========================================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-linen);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    button, input, textarea, select {
+      font-family: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* =========================================================================
+       ÜST BAŞLIK (HEADER)
+       ========================================================================= */
+    .site-header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-sand);
+      padding: 20px 0 18px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      background-color: var(--accent-green-soft);
+      border: 1px solid #D5E5DC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 1.48rem;
+      letter-spacing: -0.01em;
+      color: var(--accent-green);
+    }
+
+    .brand-tagline {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .header-call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 14px;
+      border-radius: var(--radius-pill);
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-sand);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      transition: all 0.16s ease;
+    }
+
+    .header-call-btn:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      background-color: var(--accent-green-soft);
+    }
+
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--bg-subtle);
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      font-size: 0.77rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: center;
+    }
+
+    .trust-badge svg {
+      flex-shrink: 0;
+      color: var(--accent-green);
+    }
+
+    @media (max-width: 540px) {
+      .brand-title {
+        font-size: 1.32rem;
+      }
+      .header-call-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .trust-badge {
+        flex-direction: column;
+        gap: 4px;
+        font-size: 0.72rem;
+        padding: 8px 4px;
+      }
+    }
+
+    /* =========================================================================
+       ANA KART YAPISI
+       ========================================================================= */
+    .main-content {
+      padding: 20px 0 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (min-width: 640px) {
+      .card {
+        padding: 26px;
+      }
+    }
+
+    .section-header {
+      margin-bottom: 18px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-sage);
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 1.32rem;
+      color: var(--text-primary);
+    }
+
+    .section-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    /* =========================================================================
+       PERDE TÜRÜ KARTLARI (3 SEÇENEK)
+       ========================================================================= */
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 540px) {
+      .type-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .type-card {
+      appearance: none;
+      background-color: var(--bg-linen);
+      border: 1.5px solid var(--border-sand);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 68px;
+    }
+
+    .type-card:hover {
+      border-color: var(--accent-sage);
+      background-color: #FFFFFF;
+    }
+
+    .type-card.active {
+      background-color: var(--accent-green-soft);
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 1px var(--accent-green);
+    }
+
+    .type-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .type-sub {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    .type-card.active .type-name {
+      color: var(--accent-green);
+    }
+
+    /* =========================================================================
+       ÖLÇÜ SÜRGÜLERİ VE SAYI GİRİŞLERİ
+       ========================================================================= */
+    .dimensions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 600px) {
+      .dimensions-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .dim-box {
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .dim-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .dim-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .dim-hint {
+      display: block;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .num-input-wrap {
+      display: flex;
+      align-items: center;
+      background-color: #FFFFFF;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      gap: 4px;
+    }
+
+    .num-input-wrap:focus-within {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.14);
+    }
+
+    .num-input {
+      width: 58px;
+      border: none;
+      outline: none;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: right;
+      background: transparent;
+    }
+
+    .num-unit {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--border-sand);
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+
+    .range-marks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* =========================================================================
+       PİLE SIKLIĞI VE CANLI SVG ÖNİZLEME
+       ========================================================================= */
+    .pleat-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    @media (min-width: 640px) {
+      .pleat-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    .pleat-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pleat-btn {
+      appearance: none;
+      background-color: var(--bg-linen);
+      border: 1.5px solid var(--border-sand);
+      border-radius: var(--radius-md);
+      padding: 11px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pleat-btn:hover {
+      border-color: var(--accent-sage);
+      background-color: #FFFFFF;
+    }
+
+    .pleat-btn.active {
+      background-color: var(--accent-green-soft);
+      border-color: var(--accent-green);
+    }
+
+    .pleat-title {
+      font-size: 0.87rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .pleat-btn.active .pleat-title {
+      color: var(--accent-green);
+    }
+
+    .pleat-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .rec-tag {
+      display: inline-block;
+      font-size: 0.67rem;
+      font-weight: 600;
+      background-color: var(--accent-green);
+      color: #FFFFFF;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+    }
+
+    .pleat-radio-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .pleat-btn.active .pleat-radio-dot {
+      border-color: var(--accent-green);
+    }
+
+    .pleat-btn.active .pleat-radio-dot::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background-color: var(--accent-green);
+    }
+
+    .visual-stage {
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 190px;
+    }
+
+    .visual-caption {
+      font-size: 0.77rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* =========================================================================
+       SONUÇ KUTUSU VE USTA TAVSİYESİ
+       ========================================================================= */
+    .result-box {
+      background: linear-gradient(180deg, #F0F6F3 0%, #F9F7F4 100%);
+      border: 1.5px solid #C6DDD1;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .result-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #DAE6DF;
+    }
+
+    .result-meta {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .result-subnote {
+      font-size: 0.77rem;
+      color: var(--accent-sage);
+      margin-top: 2px;
+    }
+
+    .result-figure {
+      font-family: var(--font-serif);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    .master-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 12px;
+      font-size: 0.84rem;
+      color: var(--text-primary);
+    }
+
+    .master-tip-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      border: 1px solid #CFE0D6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-green);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .master-tip strong {
+      color: var(--accent-green);
+    }
+
+    /* =========================================================================
+       SEMT SEÇİCİ, NOT ALANI VE WHATSAPP GÖNDERİMİ
+       ========================================================================= */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      appearance: none;
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-pill);
+      padding: 9px 14px;
+      min-height: 40px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--accent-sage);
+      color: var(--text-primary);
+    }
+
+    .pill-btn.active {
+      background-color: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #FFFFFF;
+    }
+
+    .textarea-input {
+      width: 100%;
+      min-height: 76px;
+      padding: 11px 14px;
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      color: var(--text-primary);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .textarea-input:focus {
+      border-color: var(--accent-green);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.12);
+    }
+
+    .whatsapp-preview {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 0.84rem;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.5;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 560px) {
+      .action-buttons {
+        grid-template-columns: 1.75fr 1fr;
+      }
+    }
+
+    .btn {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.93rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      text-decoration: none;
+      border: 1.5px solid transparent;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-green);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-green-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-linen);
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+      border-color: var(--accent-sage);
+    }
+
+    /* =========================================================================
+       ALT BÖLÜM: MAĞAZA BİLGİLERİ VE HIZLI BAĞLANTILAR
+       ========================================================================= */
+    .store-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 640px) {
+      .store-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .info-panel {
+      background-color: var(--bg-linen);
+      border: 1px solid var(--border-sand);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .info-panel-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-green);
+      margin-bottom: 10px;
+    }
+
+    .address-text {
+      font-size: 0.87rem;
+      color: var(--text-primary);
+      line-height: 1.55;
+    }
+
+    .hours-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.84rem;
+    }
+
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed var(--border-sand);
+    }
+
+    .hours-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .hours-day {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .hours-time {
+      color: var(--text-primary);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .hours-closed {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .quick-links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    @media (min-width: 640px) {
+      .quick-links-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .quick-link-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 14px 10px;
+      min-height: 76px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-sand);
+      background-color: var(--bg-linen);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.16s ease;
+    }
+
+    .quick-link-btn svg {
+      color: var(--accent-green);
+    }
+
+    .quick-link-btn:hover {
+      border-color: var(--accent-green);
+      background-color: var(--accent-green-soft);
+      color: var(--accent-green);
+    }
+
+    .quick-link-sub {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .site-footer {
+      text-align: center;
+      padding: 16px 16px 32px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================================
+       BİLDİRİM ÇUBUĞU (TOAST) VE YARDIMCI SINIFLAR
+       ========================================================================= */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(90px);
+      background-color: var(--text-primary);
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.24s ease, opacity 0.24s ease;
+      max-width: 90vw;
+      text-align: center;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       ÜST BAŞLIK (HEADER) VE MİNİMALİST YEŞİL KUŞ LOGOSU
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-top">
+        <div class="brand-row">
+          <!-- Sade Minimalist Yeşil Kuş SVG Logosu -->
+          <div class="logo-wrap" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 33C15.5 34.5 23.5 34 30 28.5C35.2 24.1 37.2 18.2 38.5 14C39.6 13.7 41.2 13.1 42.5 12C40.5 12 39 11.4 37.8 10.6C35.6 9.1 32.5 9.6 30.8 11.8C29.4 13.6 28.8 16 27.2 17.8C24.5 20.8 19.6 21.6 15.2 19.5C19.5 18 23.4 14.5 25.2 9.8C18.8 11.8 13.8 16.5 11.4 22.8C10.2 25.9 9.5 29.2 6.5 31.8C7.8 32.5 8.9 32.8 10 33Z" fill="#2D6A4F"/>
+              <path d="M15.8 26.8C20.2 26.6 24.8 24.4 28.2 20.6C24.8 26.8 19.4 30.4 12.2 30.8C13.6 29.5 14.8 28.2 15.8 26.8Z" fill="#52796F"/>
+              <circle cx="34.2" cy="13.2" r="1.2" fill="#F9F7F4"/>
+            </svg>
+          </div>
+
+          <div>
+            <h1 class="brand-title">Ahenk Perde Dünyası</h1>
+            <p class="brand-tagline">Ölçüden montaja usta işçilik • Küçükçekmece, İstanbul</p>
+          </div>
+        </div>
+
+        <a id="header-phone-link" href="tel:+905454858919" class="header-call-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>0545 485 89 19</span>
+        </a>
+      </div>
+
+      <!-- Güven Rozetleri -->
+      <div class="trust-strip" role="list" aria-label="Hizmet standartlarımız">
+        <div class="trust-badge" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"></path>
+            <path d="m14.5 12.5 2-2"></path>
+            <path d="m11.5 9.5 2-2"></path>
+            <path d="m8.5 6.5 2-2"></path>
+          </svg>
+          <span>Yerinde Ölçü</span>
+        </div>
+
+        <div class="trust-badge" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="6" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+            <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+            <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+          </svg>
+          <span>Özel Dikim &amp; Montaj</span>
+        </div>
+
+        <div class="trust-badge" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+          </svg>
+          <span>Nakit &amp; Kart</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       ANA İÇERİK
+       ========================================================================= -->
+  <main class="container main-content">
+
+    <!-- 1. CANLI PERDE METRAJ VE PİLE HESAPLAYICI -->
+    <section class="card" aria-labelledby="calc-heading">
+      <div class="section-header">
+        <span class="section-kicker">Canlı Hesaplama Aracı</span>
+        <h2 class="section-title" id="calc-heading">Perde Metraj ve Pile Hesaplayıcı</h2>
+        <p class="section-desc">Korniş ölçünüzü ve pile sıklığını seçin; gereken kumaş metrajını veya metrekareyi anında görün.</p>
+      </div>
+
+      <!-- Perde Türü Seçimi -->
+      <div class="field-group">
+        <label class="field-label">1. Perde türünü seçin</label>
+        <div class="type-grid" id="type-selector" role="radiogroup" aria-label="Perde türü">
+          <button type="button" class="type-card active" data-type="Tül Perde">
+            <span class="type-name">Tül Perde</span>
+            <span class="type-sub">Gün ışığını süzen zarif ve dökümlü kumaş</span>
+          </button>
+          <button type="button" class="type-card" data-type="Fon Perde">
+            <span class="type-name">Fon Perde</span>
+            <span class="type-sub">Keten, dokuma, kadife veya karartma kanatlar</span>
+          </button>
+          <button type="button" class="type-card" data-type="Stor / Zebra Perde">
+            <span class="type-name">Stor / Zebra Perde</span>
+            <span class="type-sub">Mekanizmalı modern sistem (m² hesabı)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Genişlik ve Yükseklik Girişleri -->
+      <div class="field-group">
+        <label class="field-label">2. Korniş / pencere ölçülerini girin</label>
+        <div class="dimensions-grid">
+          <div class="dim-box">
+            <div class="dim-top">
+              <div>
+                <label class="dim-label" for="width-input">Genişlik</label>
+                <span class="dim-hint">Korniş veya pencere eni</span>
+              </div>
+              <div class="num-input-wrap">
+                <input type="number" id="width-input" class="num-input" min="50" max="600" value="250" inputmode="numeric" aria-label="Genişlik santimetre" />
+                <span class="num-unit">cm</span>
+              </div>
+            </div>
+            <input type="range" id="width-range" min="50" max="600" step="5" value="250" aria-label="Genişlik kaydırıcısı" />
+            <div class="range-marks">
+              <span>50 cm</span>
+              <span>300 cm</span>
+              <span>600 cm</span>
+            </div>
+          </div>
+
+          <div class="dim-box">
+            <div class="dim-top">
+              <div>
+                <label class="dim-label" for="height-input">Yükseklik</label>
+                <span class="dim-hint">Kornişten zemine / peteğe</span>
+              </div>
+              <div class="num-input-wrap">
+                <input type="number" id="height-input" class="num-input" min="80" max="350" value="260" inputmode="numeric" aria-label="Yükseklik santimetre" />
+                <span class="num-unit">cm</span>
+              </div>
+            </div>
+            <input type="range" id="height-range" min="80" max="350" step="5" value="260" aria-label="Yükseklik kaydırıcısı" />
+            <div class="range-marks">
+              <span>80 cm</span>
+              <span>260 cm</span>
+              <span>350 cm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pile Sıklığı Seçimi ve Canlı SVG Önizlemesi (Tül ve Fon için) -->
+      <div class="field-group" id="pleat-section">
+        <label class="field-label">3. Pile sıklığını seçin</label>
+        <div class="pleat-layout">
+          <div class="pleat-options" id="pleat-selector" role="radiogroup" aria-label="Pile sıklığı">
+            <button type="button" class="pleat-btn" data-ratio="1">
+              <div>
+                <div class="pleat-title">Düz (1x)</div>
+                <div class="pleat-desc">Pilesiz, düz gerili sade görünüm</div>
+              </div>
+              <span class="pleat-radio-dot" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="pleat-btn" data-ratio="2">
+              <div>
+                <div class="pleat-title">Seyrek Pile (2x)</div>
+                <div class="pleat-desc">Hafif dalgalı, ekonomik ve ferah duruş</div>
+              </div>
+              <span class="pleat-radio-dot" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="pleat-btn" data-ratio="2.5">
+              <div>
+                <div class="pleat-title">Orta Pile (2.5x)</div>
+                <div class="pleat-desc">Dengeli dolgunluk ve akıcı döküm</div>
+              </div>
+              <span class="pleat-radio-dot" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="pleat-btn active" data-ratio="3">
+              <div>
+                <div class="pleat-title">
+                  Sık Pile (3x)
+                  <span class="rec-tag">Önerilen</span>
+                </div>
+                <div class="pleat-desc">Dolgun, zengin ve kusursuz usta dikişi</div>
+              </div>
+              <span class="pleat-radio-dot" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <!-- Canlı Pile Önizleme Alanı -->
+          <div class="visual-stage">
+            <svg id="pleat-svg" width="220" height="145" viewBox="0 0 220 145" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Canlı pile sıklığı önizlemesi"></svg>
+            <div class="visual-caption" id="pleat-caption">Sık Pile (3x): 1 metre kornişe 3 metre kumaş</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stor / Zebra Canlı SVG Önizlemesi -->
+      <div class="field-group hidden" id="stor-section">
+        <label class="field-label">3. Stor / Zebra Mekanizma Önizlemesi</label>
+        <div class="visual-stage" style="min-height: 155px;">
+          <svg id="stor-svg" width="250" height="132" viewBox="0 0 250 132" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stor ve zebra perde şerit önizlemesi"></svg>
+          <div class="visual-caption">Yatay çift katlı şeritli sistem — net metrekare (m²) üzerinden hesaplanır.</div>
+        </div>
+      </div>
+
+      <!-- Anlık Hesap Sonucu ve Usta Tavsiyesi -->
+      <div class="result-box" aria-live="polite">
+        <div class="result-top">
+          <div>
+            <div class="result-meta" id="result-meta">Tül Perde • 250 × 260 cm • Sık Pile (3x)</div>
+            <div class="result-subnote" id="result-subnote">Korniş boyu (2,50 m) × 3 pile katsayısı</div>
+          </div>
+          <div class="result-figure" id="result-figure">7,50 metre kumaş</div>
+        </div>
+
+        <div class="master-tip">
+          <div class="master-tip-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"></path>
+              <path d="M9 21h6"></path>
+            </svg>
+          </div>
+          <p id="master-tip-text">
+            <strong>Usta Tavsiyesi:</strong> Tül perdede 3x sık pile, gün ışığında kumaşı tok gösterir ve yıkama sonrası formunu uzun yıllar korur.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TEK TIKLA WHATSAPP ÜCRETSİZ ÖLÇÜ VE FİYAT TALEBİ -->
+    <section class="card" aria-labelledby="whatsapp-heading">
+      <div class="section-header">
+        <span class="section-kicker">Doğrudan Usta İletişimi</span>
+        <h2 class="section-title" id="whatsapp-heading">Ücretsiz Ölçü ve Fiyat Talebi</h2>
+        <p class="section-desc">Semtinizi seçin, hesaplanan ölçüleriniz düzenli bir mesaj olarak doğrudan WhatsApp hattımıza iletilsin.</p>
+      </div>
+
+      <!-- Semt Seçimi -->
+      <div class="field-group">
+        <label class="field-label">Bulunduğunuz Semt</label>
+        <div class="pill-group" id="district-selector" role="radiogroup" aria-label="Semt seçimi">
+          <button type="button" class="pill-btn active" data-district="İnönü / Küçükçekmece">İnönü / Küçükçekmece</button>
+          <button type="button" class="pill-btn" data-district="Halkalı">Halkalı</button>
+          <button type="button" class="pill-btn" data-district="Kanarya">Kanarya</button>
+          <button type="button" class="pill-btn" data-district="Avcılar">Avcılar</button>
+          <button type="button" class="pill-btn" data-district="Ataköy / Bakırköy">Ataköy / Bakırköy</button>
+          <button type="button" class="pill-btn" data-district="Bağcılar">Bağcılar</button>
+          <button type="button" class="pill-btn" data-district="Beylikdüzü">Beylikdüzü</button>
+          <button type="button" class="pill-btn" data-district="Diğer">Diğer</button>
+        </div>
+      </div>
+
+      <!-- İsteğe Bağlı Kısa Not -->
+      <div class="field-group">
+        <label class="field-label" for="customer-note">Kısa Notunuz <span style="font-weight: 400; color: var(--text-muted);">(İsteğe bağlı)</span></label>
+        <textarea id="customer-note" class="textarea-input" maxlength="240" placeholder="Örn: Salon ve yatak odası için keten tül bakıyorum, hafta içi 18:00 sonrası uygunum."></textarea>
+      </div>
+
+      <!-- Canlı Mesaj Önizlemesi -->
+      <div class="field-group">
+        <label class="field-label">Gönderilecek WhatsApp Mesajı</label>
+        <div class="whatsapp-preview" id="whatsapp-preview" aria-live="polite"></div>
+      </div>
+
+      <!-- Gönder ve Kopyala Butonları -->
+      <div class="action-buttons">
+        <button type="button" id="whatsapp-send-btn" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          <span>WhatsApp'tan Ücretsiz Ölçü &amp; Fiyat İste</span>
+        </button>
+
+        <button type="button" id="copy-msg-btn" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Mesajı Kopyala</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. MAĞAZA BİLGİLERİ VE HIZLI BAĞLANTILAR -->
+    <section class="card" aria-labelledby="store-heading">
+      <div class="section-header">
+        <span class="section-kicker">Mağazamız</span>
+        <h2 class="section-title" id="store-heading">Ahenk Perde Dünyası İletişim ve Saatler</h2>
+        <p class="section-desc">Kumaş kartelalarımızı yakından incelemek için mağazamıza bekleriz; dilerseniz kartelalarla adresinize geliyoruz.</p>
+      </div>
+
+      <div class="store-grid">
+        <!-- Adres ve Ödeme Bilgisi -->
+        <div class="info-panel">
+          <div class="info-panel-title">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Mağaza Adresi</span>
+          </div>
+          <p class="address-text">
+            <strong>Ahenk Perde Dünyası</strong><br />
+            İnönü, Alageyik Cd. 57/A<br />
+            34295 Küçükçekmece / İstanbul
+          </p>
+          <p class="address-text" style="margin-top: 10px; color: var(--text-secondary); font-size: 0.82rem;">
+            Telefon: <strong>0545 485 89 19</strong><br />
+            Ödeme: Nakit ve Kredi Kartı geçerlidir.
+          </p>
+        </div>
+
+        <!-- Çalışma Saatleri -->
+        <div class="info-panel">
+          <div class="info-panel-title">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Çalışma Saatleri</span>
+          </div>
+          <ul class="hours-list">
+            <li>
+              <span class="hours-day">Salı</span>
+              <span class="hours-time">08:00 – 20:30</span>
+            </li>
+            <li>
+              <span class="hours-day">Pzt, Çar, Per, Cum, Cmt</span>
+              <span class="hours-time">09:00 – 20:30</span>
+            </li>
+            <li>
+              <span class="hours-day">Pazar</span>
+              <span class="hours-closed">Kapalı</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Hızlı Bağlantı Butonları -->
+      <div class="quick-links-grid">
+        <a id="link-instagram" href="https://www.instagram.com/ahenkperdekc/" target="_blank" rel="noopener noreferrer" class="quick-link-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>Instagram</span>
+          <span class="quick-link-sub">@ahenkperdekc</span>
+        </a>
+
+        <a id="link-maps" href="https://maps.google.com/maps?cid=5925770151692255743" target="_blank" rel="noopener noreferrer" class="quick-link-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+          </svg>
+          <span>Yol Tarifi</span>
+          <span class="quick-link-sub">Google Haritalar</span>
+        </a>
+
+        <a id="link-phone" href="tel:+905454858919" class="quick-link-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Telefonla Ara</span>
+          <span class="quick-link-sub">0545 485 89 19</span>
+        </a>
+
+        <a id="link-review" href="https://search.google.com/local/writereview?placeid=ChIJ4487E2elyhQR_8E6kI6QPFI" target="_blank" rel="noopener noreferrer" class="quick-link-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>Google'da Yorum Yap</span>
+          <span class="quick-link-sub">Deneyiminizi paylaşın</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    Ahenk Perde Dünyası • İnönü, Alageyik Cd. 57/A, Küçükçekmece / İstanbul
+  </footer>
+
+  <!-- Bildirim Çubuğu (Toast) -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- =========================================================================
+       UYGULAMA MANTIĞI (JAVASCRIPT)
+       ========================================================================= -->
+  <script>
+    // =========================================================================
+    // GERÇEK İŞLETME BİLGİLERİ (DOĞRUDAN ENTEGRE)
+    // =========================================================================
+    const BUSINESS_CONFIG = {
+      name: "Ahenk Perde Dünyası",
+      whatsappNumber: "905454858919",
+      phoneHref: "tel:+905454858919",
+      phoneDisplay: "0545 485 89 19",
+      instagramUrl: "https://www.instagram.com/ahenkperdekc/",
+      googleMapsUrl: "https://maps.google.com/maps?cid=5925770151692255743",
+      googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJ4487E2elyhQR_8E6kI6QPFI",
+      address: "İnönü, Alageyik Cd. 57/A, 34295 Küçükçekmece/İstanbul"
+    };
+
+    // =========================================================================
+    // UYGULAMA DURUMU (STATE)
+    // =========================================================================
+    const state = {
+      type: "Tül Perde",
+      width: 250,          // cm
+      height: 260,         // cm
+      pleatRatio: 3,       // 1, 2, 2.5 veya 3
+      district: "İnönü / Küçükçekmece",
+      note: ""
+    };
+
+    // DOM Referansları
+    const els = {
+      typeSelector: document.getElementById("type-selector"),
+      pleatSelector: document.getElementById("pleat-selector"),
+      districtSelector: document.getElementById("district-selector"),
+
+      widthInput: document.getElementById("width-input"),
+      widthRange: document.getElementById("width-range"),
+      heightInput: document.getElementById("height-input"),
+      heightRange: document.getElementById("height-range"),
+
+      pleatSection: document.getElementById("pleat-section"),
+      storSection: document.getElementById("stor-section"),
+      pleatSvg: document.getElementById("pleat-svg"),
+      storSvg: document.getElementById("stor-svg"),
+      pleatCaption: document.getElementById("pleat-caption"),
+
+      resultMeta: document.getElementById("result-meta"),
+      resultSubnote: document.getElementById("result-subnote"),
+      resultFigure: document.getElementById("result-figure"),
+      masterTipText: document.getElementById("master-tip-text"),
+
+      customerNote: document.getElementById("customer-note"),
+      whatsappPreview: document.getElementById("whatsapp-preview"),
+      whatsappSendBtn: document.getElementById("whatsapp-send-btn"),
+      copyMsgBtn: document.getElementById("copy-msg-btn"),
+
+      headerPhoneLink: document.getElementById("header-phone-link"),
+      linkInstagram: document.getElementById("link-instagram"),
+      linkMaps: document.getElementById("link-maps"),
+      linkPhone: document.getElementById("link-phone"),
+      linkReview: document.getElementById("link-review"),
+
+      toast: document.getElementById("toast")
+    };
+
+    // =========================================================================
+    // HESAPLAMA VE USTA TAVSİYESİ FONKSİYONLARI
+    // =========================================================================
+    function isStorType(type) {
+      return type === "Stor / Zebra Perde";
+    }
+
+    function getPleatLabel(ratio) {
+      if (ratio === 1) return "Düz (1x)";
+      if (ratio === 2) return "Seyrek Pile (2x)";
+      if (ratio === 2.5) return "Orta Pile (2.5x)";
+      return "Sık Pile (3x)";
+    }
+
+    function formatTR(num) {
+      return num.toFixed(2).replace(".", ",");
+    }
+
+    /**
+     * Seçili perde türü ve ölçülere göre metraj (m) veya metrekare (m²) hesaplar.
+     */
+    function calculateMeasurement() {
+      const widthM = state.width / 100;
+      const heightM = state.height / 100;
+
+      if (isStorType(state.type)) {
+        const rawArea = widthM * heightM;
+        const billedArea = rawArea < 2 ? 2 : rawArea;
+        return {
+          isArea: true,
+          rawArea,
+          billedArea,
+          isMinimumApplied: rawArea < 2,
+          displayValue: `${formatTR(billedArea)} m²`,
+          messageValue: rawArea < 2
+            ? `${formatTR(billedArea)} m² (Net ${formatTR(rawArea)} m², min. 2,00 m² standart)`
+            : `${formatTR(billedArea)} m²`
+        };
+      }
+
+      const fabricMeters = widthM * state.pleatRatio;
+      return {
+        isArea: false,
+        fabricMeters,
+        displayValue: `${formatTR(fabricMeters)} metre kumaş`,
+        messageValue: `${formatTR(fabricMeters)} metre kumaş`
+      };
+    }
+
+    /**
+     * Perde türü ve pile sıklığına göre deneyimli usta tavsiyesi döndürür.
+     */
+    function getMasterTip() {
+      const { type, pleatRatio, width, height } = state;
+
+      if (isStorType(type)) {
+        const rawArea = (width / 100) * (height / 100);
+        if (rawArea < 2) {
+          return "Sektör standardı gereği 2 m² altındaki stor ve zebra perdeler 2 m² olarak hesaplanır. Evde kartela sunumunda leke tutmayan dokuları birlikte seçebiliriz.";
+        }
+        if (width > 220) {
+          return "220 cm üzeri geniş camlarda mekanizmanın sarkmaması ve pencere kanatlarının rahat açılması için perdeyi 2 parça yaptırmanızı öneririz.";
+        }
+        return "Stor ve zebra perdede pencere boşluğundan sağa ve sola 10'ar cm taşma payı bırakmak, yanlardan ışık sızmasını engeller.";
+      }
+
+      if (type === "Tül Perde") {
+        if (pleatRatio === 3) {
+          return "Tül perdede 3x sık pile en ideal tercihtir; gün ışığında içerinin görünmesini azaltır ve yıkandıktan sonra bile formunu korur.";
+        }
+        if (pleatRatio === 2.5) {
+          return "2.5x orta pile, desenli veya dokulu keten tüllerde desenin kaybolmaması için dengeli ve ekonomik bir çözümdür.";
+        }
+        if (pleatRatio === 2) {
+          return "2x seyrek pile modern ve hafif bir görünüm sunar. İçeriyi göstermemesi için sık dokulu keten tül kumaşlarla kullanmanızı tavsiye ederiz.";
+        }
+        return "Düz (1x) dikim tamamen pilesizdir; genelde rustik borulu modern dekorasyonlarda veya sabit cam bölmelerde tercih edilir.";
+      }
+
+      // Fon Perde
+      if (pleatRatio === 3) {
+        return "Fon perdede 3x sık pile ağır ve zengin bir döküm verir. Fonu yalnızca yanlarda dekoratif kanat olarak kullanacaksanız daha az kumaşla da şık bir sonuç alabiliriz.";
+      }
+      if (pleatRatio === 2.5) {
+        return "Kalın keten ve kadife fon kumaşlarda 2.5x orta pile, kumaşın kornişte toplanmasını önler ve akıcı bir duruş sağlar.";
+      }
+      if (pleatRatio === 2) {
+        return "2x seyrek pile özellikle dar pencerelerde odayı daraltmadan ferah ve modern bir çerçeve oluşturur.";
+      }
+      return "Düz (1x) fon perde sade bir panel gibi durur; yüksek tavanlı (" + height + " cm) odalarda yan kanat olarak kullanıldığında minimal bir etki verir.";
+    }
+
+    // =========================================================================
+    // CANLI SVG GÖRSELLEŞTİRME (PİLE VE STOR/ZEBRA)
+    // =========================================================================
+    function renderPleatSvg() {
+      const ratio = state.pleatRatio;
+      const isFon = state.type === "Fon Perde";
+
+      const p = isFon
+        ? { light: "#D4E4DC", mid: "#B7D0C4", shadow: "#87AA99", stroke: "#52796F" }
+        : { light: "#FFFFFF", mid: "#F3EFE8", shadow: "#DFD9CE", stroke: "#C9C1B4" };
+
+      const startX = 24;
+      const totalW = 172;
+      const topY = 22;
+      const bottomY = 128;
+
+      const parts = [];
+      // Pencere arka planı
+      parts.push(`<rect x="20" y="18" width="180" height="114" rx="4" fill="#FFFFFF" stroke="#E6E1D8" stroke-width="1.2"/>`);
+      // Korniş rayı
+      parts.push(`<rect x="14" y="12" width="192" height="7" rx="3" fill="#2D6A4F"/>`);
+
+      if (ratio === 1) {
+        // Düz (1x) pilesiz kumaş
+        parts.push(`<rect x="${startX}" y="${topY}" width="${totalW}" height="${bottomY - topY}" fill="${p.light}" stroke="${p.stroke}" stroke-width="0.9"/>`);
+        parts.push(`<line x1="${startX + totalW * 0.33}" y1="${topY}" x2="${startX + totalW * 0.33}" y2="${bottomY}" stroke="${p.shadow}" stroke-width="0.6" stroke-dasharray="4 4"/>`);
+        parts.push(`<line x1="${startX + totalW * 0.66}" y1="${topY}" x2="${startX + totalW * 0.66}" y2="${bottomY}" stroke="${p.shadow}" stroke-width="0.6" stroke-dasharray="4 4"/>`);
+      } else {
+        // 2x -> 6 kıvrım, 2.5x -> 9 kıvrım, 3x -> 13 kıvrım
+        const foldCount = ratio === 2 ? 6 : (ratio === 2.5 ? 9 : 13);
+        const foldW = totalW / foldCount;
+
+        for (let i = 0; i < foldCount; i++) {
+          const x0 = startX + i * foldW;
+          const xMid = x0 + foldW * 0.54;
+          const x1 = x0 + foldW;
+
+          parts.push(
+            `<path d="M ${x0.toFixed(1)} ${topY} L ${xMid.toFixed(1)} ${topY} L ${(xMid + 1.4).toFixed(1)} ${bottomY} Q ${(x0 + foldW * 0.25).toFixed(1)} ${(bottomY + 4).toFixed(1)} ${x0.toFixed(1)} ${bottomY} Z" fill="${p.light}" stroke="${p.stroke}" stroke-width="0.6"/>`
+          );
+          parts.push(
+            `<path d="M ${xMid.toFixed(1)} ${topY} L ${x1.toFixed(1)} ${topY} L ${x1.toFixed(1)} ${bottomY} Q ${(xMid + foldW * 0.25).toFixed(1)} ${(bottomY - 3).toFixed(1)} ${(xMid + 1.4).toFixed(1)} ${bottomY} Z" fill="${p.shadow}" stroke="${p.stroke}" stroke-width="0.6"/>`
+          );
+          parts.push(
+            `<line x1="${xMid.toFixed(1)}" y1="${topY}" x2="${xMid.toFixed(1)}" y2="${topY + 12}" stroke="${p.stroke}" stroke-width="1"/>`
+          );
+        }
+      }
+
+      // Üst ekstrafor (pile bandı)
+      parts.push(`<rect x="${startX}" y="${topY - 2}" width="${totalW}" height="5" fill="${p.mid}" stroke="${p.stroke}" stroke-width="0.7"/>`);
+
+      els.pleatSvg.innerHTML = parts.join("");
+
+      const captions = {
+        1: "Düz (1x): Pilesiz, düz gerili sade kumaş görünümü",
+        2: "Seyrek Pile (2x): 1 metre kornişe 2 metre kumaş",
+        2.5: "Orta Pile (2.5x): 1 metre kornişe 2,5 metre kumaş",
+        3: "Sık Pile (3x): 1 metre kornişe 3 metre kumaş (Önerilen)"
+      };
+      els.pleatCaption.textContent = captions[ratio] || captions[3];
+    }
+
+    function renderStorSvg() {
+      els.storSvg.innerHTML = `
+        <rect x="34" y="14" width="164" height="11" rx="4" fill="#2D6A4F"/>
+        <rect x="38" y="25" width="156" height="74" fill="#FFFFFF" stroke="#52796F" stroke-width="1.2"/>
+        <rect x="38" y="32" width="156" height="10" fill="#EBF3EF"/>
+        <rect x="38" y="51" width="156" height="10" fill="#EBF3EF"/>
+        <rect x="38" y="70" width="156" height="10" fill="#EBF3EF"/>
+        <rect x="38" y="89" width="156" height="10" fill="#EBF3EF"/>
+        <rect x="36" y="99" width="160" height="5" rx="2" fill="#52796F"/>
+        <line x1="204" y1="20" x2="204" y2="94" stroke="#847F7A" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <circle cx="204" cy="96" r="3.2" fill="#2D6A4F"/>
+        <text x="116" y="122" text-anchor="middle" fill="#2D6A4F" font-size="11" font-weight="700" font-family="Inter, sans-serif">En: ${state.width} cm  ×  Boy: ${state.height} cm</text>
+      `;
+    }
+
+    // =========================================================================
+    // WHATSAPP MESAJI VE ARAYÜZ GÜNCELLEME
+    // =========================================================================
+    function buildWhatsAppMessage() {
+      const calc = calculateMeasurement();
+      const storMode = isStorType(state.type);
+      const noteText = state.note.trim();
+
+      const lines = [
+        `Merhaba ${BUSINESS_CONFIG.name},`,
+        `Ücretsiz yerinde ölçü ve fiyat teklifi almak istiyorum.`,
+        ``,
+        `• Perde Türü: ${state.type}`,
+        `• Ölçü: ${state.width} cm (En) × ${state.height} cm (Boy)`
+      ];
+
+      if (!storMode) {
+        lines.push(`• Pile Sıklığı: ${getPleatLabel(state.pleatRatio)}`);
+      }
+
+      lines.push(`• Hesaplanan Miktar: ${calc.messageValue}`);
+      lines.push(`• Semt: ${state.district}`);
+
+      if (noteText) {
+        lines.push(`• Not: ${noteText}`);
+      }
+
+      lines.push(``);
+      lines.push(`Uygun zamanınızda dönüş yapabilir misiniz?`);
+
+      return lines.join("\n");
+    }
+
+    function updateUI() {
+      const calc = calculateMeasurement();
+      const storMode = isStorType(state.type);
+
+      if (storMode) {
+        els.pleatSection.classList.add("hidden");
+        els.storSection.classList.remove("hidden");
+        renderStorSvg();
+      } else {
+        els.pleatSection.classList.remove("hidden");
+        els.storSection.classList.add("hidden");
+        renderPleatSvg();
+      }
+
+      const pleatInfo = storMode ? "Mekanizmalı (m²)" : getPleatLabel(state.pleatRatio);
+      els.resultMeta.textContent = `${state.type} • ${state.width} × ${state.height} cm • ${pleatInfo}`;
+      els.resultFigure.textContent = calc.displayValue;
+
+      if (storMode) {
+        els.resultSubnote.textContent = calc.isMinimumApplied
+          ? `Net alan ${formatTR(calc.rawArea)} m² — standart minimum 2,00 m² uygulanır`
+          : `Net pencere ölçüsüne göre hesaplanan alan`;
+      } else {
+        els.resultSubnote.textContent = `Korniş boyu (${formatTR(state.width / 100)} m) × ${state.pleatRatio} pile katsayısı`;
+      }
+
+      els.masterTipText.innerHTML = `<strong>Usta Tavsiyesi:</strong> ${getMasterTip()}`;
+      els.whatsappPreview.textContent = buildWhatsAppMessage();
+    }
+
+    // =========================================================================
+    // YARDIMCI ARAÇLAR (TOAST VE KOPYALAMA)
+    // =========================================================================
+    let toastTimer = null;
+    function showToast(message) {
+      clearTimeout(toastTimer);
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      toastTimer = setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 2600);
+    }
+
+    /**
+     * İframe uyumlu pano kopyalama (document.execCommand).
+     */
+    function copyTextToClipboard(text) {
+      try {
+        const tempArea = document.createElement("textarea");
+        tempArea.value = text;
+        tempArea.setAttribute("readonly", "");
+        tempArea.style.position = "fixed";
+        tempArea.style.top = "-9999px";
+        tempArea.style.left = "-9999px";
+        document.body.appendChild(tempArea);
+        tempArea.focus();
+        tempArea.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(tempArea);
+        showToast(ok ? "Mesaj panoya kopyalandı." : "Kopyalama yapılamadı, metni manuel seçebilirsiniz.");
+      } catch (err) {
+        showToast("Kopyalama sırasında bir hata oluştu.");
+      }
+    }
+
+    // =========================================================================
+    // OLAY DİNLEYİCİLERİ (EVENT LISTENERS)
+    // =========================================================================
+    function bindEvents() {
+      // Perde türü seçimi
+      els.typeSelector.addEventListener("click", (e) => {
+        const card = e.target.closest(".type-card");
+        if (!card) return;
+        els.typeSelector.querySelectorAll(".type-card").forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+        state.type = card.dataset.type;
+        updateUI();
+      });
+
+      // Pile sıklığı seçimi
+      els.pleatSelector.addEventListener("click", (e) => {
+        const btn = e.target.closest(".pleat-btn");
+        if (!btn) return;
+        els.pleatSelector.querySelectorAll(".pleat-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.pleatRatio = parseFloat(btn.dataset.ratio);
+        updateUI();
+      });
+
+      // Genişlik kaydırıcı ve sayı girişi senkronizasyonu
+      els.widthRange.addEventListener("input", () => {
+        state.width = parseInt(els.widthRange.value, 10);
+        els.widthInput.value = state.width;
+        updateUI();
+      });
+
+      els.widthInput.addEventListener("input", () => {
+        const val = parseInt(els.widthInput.value, 10);
+        if (!isNaN(val)) {
+          const clamped = Math.min(600, Math.max(50, val));
+          state.width = clamped;
+          els.widthRange.value = clamped;
+          updateUI();
+        }
+      });
+
+      els.widthInput.addEventListener("blur", () => {
+        let val = parseInt(els.widthInput.value, 10);
+        if (isNaN(val) || val < 50) val = 50;
+        if (val > 600) val = 600;
+        state.width = val;
+        els.widthInput.value = val;
+        els.widthRange.value = val;
+        updateUI();
+      });
+
+      // Yükseklik kaydırıcı ve sayı girişi senkronizasyonu
+      els.heightRange.addEventListener("input", () => {
+        state.height = parseInt(els.heightRange.value, 10);
+        els.heightInput.value = state.height;
+        updateUI();
+      });
+
+      els.heightInput.addEventListener("input", () => {
+        const val = parseInt(els.heightInput.value, 10);
+        if (!isNaN(val)) {
+          const clamped = Math.min(350, Math.max(80, val));
+          state.height = clamped;
+          els.heightRange.value = clamped;
+          updateUI();
+        }
+      });
+
+      els.heightInput.addEventListener("blur", () => {
+        let val = parseInt(els.heightInput.value, 10);
+        if (isNaN(val) || val < 80) val = 80;
+        if (val > 350) val = 350;
+        state.height = val;
+        els.heightInput.value = val;
+        els.heightRange.value = val;
+        updateUI();
+      });
+
+      // Semt seçimi
+      els.districtSelector.addEventListener("click", (e) => {
+        const btn = e.target.closest(".pill-btn");
+        if (!btn) return;
+        els.districtSelector.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.district = btn.dataset.district;
+        els.whatsappPreview.textContent = buildWhatsAppMessage();
+      });
+
+      // Kısa not alanı
+      els.customerNote.addEventListener("input", () => {
+        state.note = els.customerNote.value;
+        els.whatsappPreview.textContent = buildWhatsAppMessage();
+      });
+
+      // WhatsApp'a tek tıkla gönderim
+      els.whatsappSendBtn.addEventListener("click", () => {
+        try {
+          const message = buildWhatsAppMessage();
+          const url = `https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+          window.open(url, "_blank", "noopener,noreferrer");
+        } catch (err) {
+          showToast("WhatsApp bağlantısı açılamadı. Mesajı kopyalayıp gönderebilirsiniz.");
+        }
+      });
+
+      // Mesajı kopyala
+      els.copyMsgBtn.addEventListener("click", () => {
+        copyTextToClipboard(buildWhatsAppMessage());
+      });
+    }
+
+    // =========================================================================
+    // BAŞLATMA (INIT)
+    // =========================================================================
+    function init() {
+      try {
+        els.headerPhoneLink.href = BUSINESS_CONFIG.phoneHref;
+        els.linkInstagram.href = BUSINESS_CONFIG.instagramUrl;
+        els.linkMaps.href = BUSINESS_CONFIG.googleMapsUrl;
+        els.linkPhone.href = BUSINESS_CONFIG.phoneHref;
+        els.linkReview.href = BUSINESS_CONFIG.googleReviewUrl;
+
+        bindEvents();
+        updateUI();
+      } catch (err) {
+        console.error("Uygulama başlatma hatası:", err);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
+```
